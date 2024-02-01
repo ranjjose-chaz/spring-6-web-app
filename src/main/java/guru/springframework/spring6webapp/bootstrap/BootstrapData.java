@@ -27,6 +27,7 @@ public class BootstrapData implements CommandLineRunner {
 
         Author eric = createEricAuthor();
         Book ddd = createDDDBook();
+        ddd.getAuthors().add(eric);
         eric.getBooks().add(ddd);
 
 
@@ -35,10 +36,13 @@ public class BootstrapData implements CommandLineRunner {
 
         Author rod = createRodAuthor();
         Book noEJB = createNoEJBBook();
-        rod.getBooks().add(noEJB);
+        noEJB.getAuthors().add(rod);
 
         Author rodSaved = authorRepository.save(rod);
         Book noEJBSaved = bookRepository.save(noEJB);
+
+
+
 
         /* for(Author author: authorRepository.findAll()){
             System.out.println(author);
@@ -49,7 +53,8 @@ public class BootstrapData implements CommandLineRunner {
                 "1900 E Lake Ave Glenview, IL 60025 United States",
                 "Glenview",
                 "Illinois",
-                "IL 60025"
+                "IL 60025",
+                dddSaved
                 );
 
         Publisher addisonWesleySaved = publisherRepository.save(addisonWesley);
@@ -60,16 +65,24 @@ public class BootstrapData implements CommandLineRunner {
                 "New Jersey John Wiley & Sons, Inc. Corporate Headquarters 111 River Street Hoboken, NJ 07030-5774 · California zyBooks & Atypon 54 N Central Ave",
                 "111 River Street Hoboken",
                 "California",
-                "NJ 07030-5774"
+                "NJ 07030-5774",
+                noEJBSaved
         );
         Publisher wileySaved = publisherRepository.save(wiley);
+
+        dddSaved.setPublisher(addisonWesleySaved);
+        noEJB.setPublisher(wileySaved);
+
+        dddSaved = bookRepository.save(dddSaved);
+        noEJBSaved = bookRepository.save(noEJBSaved);
+
 
 
         System.out.println(rodSaved);
         System.out.println(dddSaved);
 
-        System.out.println(addisonWesleySaved);
-        System.out.println(wileySaved);
+        System.out.println("addisonWesleySaved ->" + addisonWesleySaved);
+        System.out.println("wileySaved -> " + wileySaved);
 
 
         System.out.println("In Bootstrap");
@@ -83,13 +96,15 @@ public class BootstrapData implements CommandLineRunner {
                 String address,
                 String city,
                 String state,
-                String zip) {
+                String zip,
+                Book book) {
         Publisher publisher = new Publisher();
         publisher.setPublisherName(publisherName);
         publisher.setAddress(address);
         publisher.setCity(city);
         publisher.setState(state);
         publisher.setZip(zip);
+        publisher.getBooks().add(book);
 
         return publisher;
 
