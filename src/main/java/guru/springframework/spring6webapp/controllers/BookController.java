@@ -19,4 +19,8 @@ public class BookController {
         model.addAttribute("books", bookService.findAll());
         return "books";
     }
+
+    public void hello() {
+        System.out.println("Hello from BookController");
+    }
 }

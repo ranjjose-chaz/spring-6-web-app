@@ -18,4 +18,8 @@ public class AuthorController {
         model.addAttribute("authors", authorService.findAll());
         return "authors";
     }
+
+    public void hello() {
+        System.out.println("Hello from AuthorController");
+    }
 }
